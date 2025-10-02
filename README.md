@@ -1,1 +1,1 @@
-# sistema-controle-de-estoque-python
+# Sistema de Controle de Estoque em Python
