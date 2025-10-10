@@ -116,6 +116,6 @@ while True:
             print("\nAté mais! Saindo do programa...")
             break
         case 1:
-            entrada_produtos() # Registra a entrada de produtos e atualiza o estoque e o hitórico de entradas atualizado
+            entrada_produtos() # Registra a entrada de produtos e atualiza o estoque e o histórico de entradas atualizado
         case 2:
-            saida_produtos() # Registra a saída de produtos e atualiza o estoque e o hitórico de entradas atualizado
+            saida_produtos() # Registra a saída de produtos e atualiza o estoque e o histórico de entradas atualizado
