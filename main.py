@@ -1,35 +1,44 @@
 import core # Importa as funções para a lógica principal do programa
 import utils
 
-def entrada_produtos():
-    # Registro de entrada de produtos no estoque
+def entrada_produtos(): # Registro de entrada de produtos no estoque
     utils.imprimir_titulo("Entrada de Produtos")
     entrada = core.registrar_operacao(estoque) # Solicita as informações sobre o registro ao usuário e coleta o retorno da função
 
     if type(entrada) == dict: # Verifica se o retorno da função `registrar` é um dicionário, visto que, quando o retorno for 0, deve-se cancelar o registro de entrada
-        core.historico_entradas.append(entrada) # Armazena os dados da entrada na lista `historico_entradas`
+        historico_entradas.append(entrada) # Armazena os dados da entrada na lista `historico_entradas`
 
-        # Atualiza o estoque
-        produto_entrada = entrada['nome'] 
-        qtde_entrada = entrada['qtde']
-        for produto in estoque:
-            if produto['nome'] == produto_entrada:
-                produto['qtde'] = produto['qtde'] + qtde_entrada
+        atualizar_estoque(entrada) # Atualiza o estoque
 
-def saida_produtos():
-    # Registro de entrada de produtos no estoque
+def saida_produtos(): # Registro de saída de produtos no estoque
     utils.imprimir_titulo("Saída de Produtos")
     saida = core.registrar_operacao(estoque, True) # Solicita as informações sobre o registro ao usuário e coleta o retorno da função
 
     if type(saida) == dict: # Verifica se o retorno da função `registrar` é um dicionário, visto que, quando o retorno for 0, deve-se cancelar o registro de entrada
         historico_saidas.append(saida) # Armazena os dados da entrada na lista `historico_entradas`
 
-        # Atualiza o estoque
-        produto_saida = saida['nome'] 
-        qtde_saida = saida['qtde']
-        for produto in estoque:
-            if produto['nome'] == produto_saida:
-                produto['qtde'] = produto['qtde'] - qtde_saida
+        atualizar_estoque(saida, True) # Atualiza o estoque
+
+def atualizar_estoque(dados_operacao, saida = False): # Atualiza o estoque
+    produto = dados_operacao['nome']
+    qtde = dados_operacao['qtde']
+
+    for p in estoque:
+        if p['nome'] == produto: # Procura pelo produto que foi adicionado ou retirado do estoque
+            if saida: # Verifica se ocorreu uma entrada ou uma saída do estoque antes de fazer a operação de somar ou subtrair a quantidade no estoque
+                p['qtde'] = p['qtde'] - qtde
+            else:
+                p['qtde'] = p['qtde'] + qtde
+
+def main():
+    # entrada_produtos() # Registra a entrada de produtos e atualiza o estoque e o hitórico de entradas atualizado
+    saida_produtos() # Registra a saída de produtos e atualiza o estoque e o hitórico de entradas atualizado
+
+    print()
+    print(estoque)
+    print()
+    # print(historico_entradas)
+    print(historico_saidas)
 
 # ========================================================== Função Principal ==========================================================
 
@@ -44,15 +53,6 @@ estoque = [
 historico_entradas = [] # Lista de todos os registros de entrada no estoque
 historico_saidas = [] # Lista de todos os registros de saída no estoque
 
-def main():
-    # entrada_produtos()
-    saida_produtos()
-
-
 for i in range(1):
     main()
     print()
-
-print(historico_entradas)
-print()
-print(estoque)
