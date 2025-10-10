@@ -32,5 +32,5 @@ def validar_string(label):
             continue # Volta ao início do loop quando ocorre algum outro tipo de erro
     return valor # Retorna o valor de entrada validado
 
-def imprimir_titulo(text):
+def imprimir_titulo(text): # Imprime títulos
     print(12 * "=" + f' {text} ' + 12 * "=" + "\n")

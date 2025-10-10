@@ -7,7 +7,7 @@ def registrar_operacao(lista_produtos, saida_produtos = False): # Função para 
     qtde_produto = 0
     data_entrada = ""
     responsavel = ""
-    entrada = {} # Dicionário em que os dados do produto serão agrupados
+    dados_operacao = {} # Dicionário em que os dados do produto serão agrupados para registrar no hitórico de entradas ou no de saídas
 
     print("Digite apenas o número da opção desejada:")
     print("(Ou digite \"0\" à qualquer momento para cancelar)\n")
@@ -45,11 +45,11 @@ def registrar_operacao(lista_produtos, saida_produtos = False): # Função para 
             return 0
 
     # Armazena os dados do produto no dicionário `entrada`
-    entrada['nome'] = produto_escolhido
-    entrada['qtde'] = qtde_produto
-    entrada['data'] = data_entrada
+    dados_operacao['nome'] = produto_escolhido
+    dados_operacao['qtde'] = qtde_produto
+    dados_operacao['data'] = data_entrada
     if saida_produtos: # Caso for um registro de uma saída, é retornado também o nome de quem fez a operação
-        entrada['responsavel'] = responsavel
+        dados_operacao['responsavel'] = responsavel
     # print(f'\n{entrada}')
 
-    return entrada
+    return dados_operacao
