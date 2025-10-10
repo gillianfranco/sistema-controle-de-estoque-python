@@ -1,15 +1,13 @@
 import utils # Importa as funções auxiliares
 
 # ========================================================== Funcionalidades ==========================================================
-
-def registrar_entrada(lista_produtos): # Função para registrar entradas no estoque
+def registrar_operacao(lista_produtos, saida_produtos = False): # Função para registrar entradas e saidas no estoque
     opcao = 0 # Coleta qual produto o usuário escolheu
     produto_escolhido = "" # Nome do produto
     qtde_produto = 0
     data_entrada = ""
+    responsavel = ""
     entrada = {} # Dicionário em que os dados do produto serão agrupados
-
-    print(12 * "=" + " Entrada de Produtos " + 12 * "=" + "\n")
 
     print("Digite apenas o número da opção desejada:")
     print("(Ou digite \"0\" à qualquer momento para cancelar)\n")
@@ -25,7 +23,12 @@ def registrar_entrada(lista_produtos): # Função para registrar entradas no est
 
     print(f'\n"{produto_escolhido}":')
 
-    qtde_produto = utils.validar_int("Digite a quantidade: ", 0) # Valida a entrada do usuário, não permitindo que ele digite uma quantidade negativa
+    if saida_produtos: # Caso for um registro de uma saída, haverá uma quantidade máxima de produtos que podem sair do estoque
+        qtde_maxima = lista_produtos[opcao - 1]['qtde']
+        qtde_produto = utils.validar_int("Digite a quantidade: ", 0, qtde_maxima) # Valida a entrada do usuário, não permitindo que ele digite uma quantidade negativa ou acima da quantidade atual do produto no estoque
+    else:
+        qtde_produto = utils.validar_int("Digite a quantidade: ", 0) # Valida a entrada do usuário, não permitindo que ele digite uma quantidade negativa
+
     if qtde_produto == 0: # Cancela o registro de produtos se o usuário digitar `0`
         print("Cancelando o registro...")
         return 0
@@ -34,11 +37,19 @@ def registrar_entrada(lista_produtos): # Função para registrar entradas no est
     if data_entrada == "0": # Cancela o registro de produtos se o usuário digitar `0`
         print("Cancelando o registro...")
         return 0
+    
+    if saida_produtos: # Caso for um registro de uma saída, é solicitado que o usuário informe o nome de quem fez a operação
+        responsavel = utils.validar_string("Digite o nome do responsável pela operação: ")
+        if responsavel == "0":
+            print("Cancelando o registro...")
+            return 0
 
     # Armazena os dados do produto no dicionário `entrada`
     entrada['nome'] = produto_escolhido
     entrada['qtde'] = qtde_produto
     entrada['data'] = data_entrada
+    if saida_produtos: # Caso for um registro de uma saída, é retornado também o nome de quem fez a operação
+        entrada['responsavel'] = responsavel
     # print(f'\n{entrada}')
 
     return entrada
