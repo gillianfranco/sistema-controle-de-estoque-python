@@ -63,6 +63,7 @@ def entrada_produtos(): # Registro de entrada de produtos no estoque
 
         atualizar_estoque(entrada) # Atualiza o estoque
     print("\n" * 50)
+    print("Entrada registrada com sucesso!\n")
 
 def saida_produtos(): # Registro de saída de produtos no estoque
     print("\n" * 50)
@@ -74,6 +75,7 @@ def saida_produtos(): # Registro de saída de produtos no estoque
 
         atualizar_estoque(saida, True) # Atualiza o estoque
     print("\n" * 50)
+    print("Saída registrada com sucesso!\n")
 
 def atualizar_estoque(dados_operacao, saida = False): # Atualiza o estoque
     produto = dados_operacao['nome']
@@ -88,10 +90,19 @@ def atualizar_estoque(dados_operacao, saida = False): # Atualiza o estoque
 
 def listar_historico_entradas(): # Lista o histórico de entradas
     print("\n" * 50)
-    print("Histórico de entradas:\n")
+    print("Histórico de Entradas:\n")
     i = 0
     for entrada in historico_entradas:
         print(f'{i + 1} - {entrada['nome']}; {entrada['qtde']}; {entrada['data']}.')
+        i = i + 1
+    print()
+
+def listar_historico_saidas():
+    print("\n" * 50)
+    print("Histórico de Saídas:\n")
+    i = 0
+    for saida in historico_saidas:
+        print(f'{i + 1} - {saida['nome']}; {saida['qtde']}; {saida['data']}; {saida['responsavel']}.')
         i = i + 1
     print()
 
@@ -116,9 +127,9 @@ while True:
         print(produto['nome'], " -----> ", produto['qtde'])
     
     print("\nDigite apenas o número da opção desejada:")
-    print("0-Sair\t1-Registrar Entrada\t2-Registrar Saída\t3-Histórico de Entradas")
+    print("0-Sair\n1-Registrar Entrada\n2-Registrar Saída\n3-Histórico de Entradas\n4-Histórico de Saídas")
 
-    opcao = utils.validar_int(">> ", 0, 3) # Coleta a escolha do usuário, faz a validação e retorna para a variável `opcao`
+    opcao = utils.validar_int(">> ", 0, 4) # Coleta a escolha do usuário, faz a validação e retorna para a variável `opcao`
 
     match(opcao): # Executa um bloco de código dependendo da escolha do usuário
         case 0:
@@ -134,3 +145,9 @@ while True:
             else:
                 print("\n" * 50)
                 print("\nO histórico de entradas ainda está vazio!\n")
+        case 4:
+            if historico_saidas:
+                listar_historico_saidas()
+            else:
+                print("\n" * 50)
+                print("\nO histórico de saídas ainda está vazio!\n")
