@@ -43,7 +43,7 @@ def registrar_operacao(lista_produtos, saida_produtos = False): # Função para 
             print("Cancelando o registro...")
             return 0
 
-    # Armazena os dados do produto no dicionário `entrada`
+    # Armazena os dados do produto no dicionário `dados_operacao`
     dados_operacao['nome'] = produto_escolhido
     dados_operacao['qtde'] = qtde_produto
     dados_operacao['data'] = data_entrada
@@ -86,6 +86,15 @@ def atualizar_estoque(dados_operacao, saida = False): # Atualiza o estoque
             else:
                 p['qtde'] = p['qtde'] + qtde
 
+def listar_historico_entradas(): # Lista o histórico de entradas
+    print("\n" * 50)
+    print("Histórico de entradas:\n")
+    i = 0
+    for entrada in historico_entradas:
+        print(f'{i + 1} - {entrada['nome']}; {entrada['qtde']}; {entrada['data']}.')
+        i = i + 1
+    print()
+
 # ========================================================== Função Principal ==========================================================
 
 estoque = [
@@ -107,9 +116,9 @@ while True:
         print(produto['nome'], " -----> ", produto['qtde'])
     
     print("\nDigite apenas o número da opção desejada:")
-    print("0-Sair\t1-Registrar Entrada\t2-Registrar Saída")
+    print("0-Sair\t1-Registrar Entrada\t2-Registrar Saída\t3-Histórico de Entradas")
 
-    opcao = utils.validar_int(">> ", 0, 2) # Coleta a escolha do usuário, faz a validação e retorna para a variável `opcao`
+    opcao = utils.validar_int(">> ", 0, 3) # Coleta a escolha do usuário, faz a validação e retorna para a variável `opcao`
 
     match(opcao): # Executa um bloco de código dependendo da escolha do usuário
         case 0:
@@ -119,3 +128,9 @@ while True:
             entrada_produtos() # Registra a entrada de produtos e atualiza o estoque e o histórico de entradas atualizado
         case 2:
             saida_produtos() # Registra a saída de produtos e atualiza o estoque e o histórico de entradas atualizado
+        case 3:
+            if historico_entradas: # Verifica se o histórico de entradas não está vazio
+                listar_historico_entradas()
+            else:
+                print("\n" * 50)
+                print("\nO histórico de entradas ainda está vazio!\n")
